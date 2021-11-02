@@ -1,63 +1,82 @@
-import React, { useReducer, useRef, useCallback } from 'react';
-import TodoTemplate from './components/TodoTemplate';
-import TodoInsert from './components/TodoInsert';
-import TodoList from './components/TodoList';
-
-function createBulkTodos() {
-  const array = [];
-  for (let i = 1; i <= 2500; i++) {
-    array.push({
-      id: i,
-      text: `Todo ${i}`,
-      checked: false,
-    });
-  }
-  return array;
-}
-
-function todoReducer(todos, action) {
-  switch (action.type) {
-    case 'INSERT':
-      return todos.concat(action.todo);
-    case 'REMOVE':
-      return todos.filter((todo) => todo.id !== action.id);
-    case 'TOGGLE':
-      return todos.map((todo) =>
-        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo,
-      );
-    default:
-      return todos;
-  }
-}
+import { useRef, useCallback, useState } from 'react';
 
 const App = () => {
-  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
+  const nextId = useRef(1);
+  const [form, setForm] = useState({ name: '', username: '' });
+  const [data, setData] = useState({
+    array: [],
+    uselessValue: null,
+  });
 
-  const nextId = useRef(2501);
+  const onChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setForm({
+        ...form,
+        [name]: [value],
+      });
+    },
+    [form],
+  );
 
-  const onInsert = useCallback((text) => {
-    const todo = {
-      id: nextId.current,
-      text,
-      checked: false,
-    };
-    dispatch({ type: 'INSERT', todo });
-    nextId.current += 1;
-  }, []);
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const info = {
+        id: nextId.current,
+        name: form.name,
+        username: form.username,
+      };
+      setData({
+        ...data,
+        array: data.array.concat(info),
+      });
+      setForm({
+        name: '',
+        username: '',
+      });
+      nextId.current += 1;
+    },
+    [data, form.name, form.username],
+  );
 
-  const onRemove = useCallback((id) => {
-    dispatch({ type: 'REMOVE', id });
-  }, []);
-
-  const onToggle = useCallback((id) => {
-    dispatch({ type: 'TOGGLE', id });
-  }, []);
+  const onRemove = useCallback(
+    (id) => {
+      setData({
+        ...data,
+        array: data.array.filter((info) => info.id !== id),
+      });
+    },
+    [data],
+  );
 
   return (
-    <TodoTemplate>
-      <TodoInsert onInsert={onInsert} />
-      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
-    </TodoTemplate>
+    <div>
+      <form onSubmit={onSubmit}>
+        <input
+          name="username"
+          placeholder="아이디"
+          value={form.username}
+          onChange={onChange}
+        />
+        <input
+          name="name"
+          placeholder="이름"
+          value={form.name}
+          onChange={onChange}
+        />
+        <button type="submit">등록</button>
+      </form>
+      <div>
+        <ul>
+          {data.array.map((info) => (
+            <li key={info.id} onClick={() => onRemove(info.id)}>
+              {info.username}({info.name})
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 
