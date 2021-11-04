@@ -5,6 +5,30 @@ import Profiles from './Profiles';
 import History from './History';
 
 const App = () => {
+  function increase(number, callback) {
+    setTimeout(() => {
+      const result = number + 10;
+      if (callback) {
+        callback(result);
+      }
+    }, 1000);
+  }
+
+  console.log('start');
+  increase(0, (result) => {
+    console.log(result);
+    increase(result, (result) => {
+      console.log(result);
+      increase(result, (result) => {
+        console.log(result);
+        increase(result, (result) => {
+          console.log(result);
+          console.log('end');
+        });
+      });
+    });
+  });
+
   return (
     <div>
       <ul>
