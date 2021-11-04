@@ -1,3 +1,6 @@
+import { withRouter } from 'react-router-dom';
+import WithRouter from './WithRouter';
+
 const data = {
   my: {
     name: 'b0ho',
@@ -21,8 +24,9 @@ const Profile = ({ match }) => {
         {username}({profile.name})
       </h3>
       <p>{profile.describe}</p>
+      <WithRouter />
     </div>
   );
 };
 
-export default Profile;
+export default withRouter(Profile);
