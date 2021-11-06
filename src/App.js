@@ -1,8 +1,11 @@
-import { Route } from 'react-router-dom';
-import NewsPage from './pages/NewsPage';
+import ColorBox from './components/ColorBox';
 
 const App = () => {
-  return <Route path="/:category?" component={NewsPage} />;
+  return (
+    <div>
+      <ColorBox />
+    </div>
+  );
 };
 
 export default App;
