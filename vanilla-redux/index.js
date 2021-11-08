@@ -18,7 +18,7 @@ const initialState = {
   counter: 0,
 };
 
-function reducer(state = initialState, action) {
+function reducers(state = initialState, action) {
   switch (action.type) {
     case TOGGLE_SWITCH:
       return {
@@ -40,7 +40,7 @@ function reducer(state = initialState, action) {
   }
 }
 
-const store = createStore(reducer);
+const store = createStore(reducers);
 
 const render = () => {
   const state = store.getState();

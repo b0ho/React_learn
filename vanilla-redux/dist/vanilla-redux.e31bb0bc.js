@@ -987,7 +987,7 @@ btnIncrease.onclick = function () {
 btnDecrease.onclick = function () {
   store.dispatch(decrease());
 };
-},{"redux":"node_modules/redux/es/redux.js"}],"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js"}],"C:/Users/82648/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1015,7 +1015,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52619" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8245" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -1191,5 +1191,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["C:/Users/82648/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/vanilla-redux.e31bb0bc.js.map
