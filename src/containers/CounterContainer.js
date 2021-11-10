@@ -1,3 +1,4 @@
+import React from 'react';
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Counter from '../components/Counter';
@@ -14,4 +15,4 @@ const CounterContainer = () => {
   );
 };
 
-export default CounterContainer;
+export default React.memo(CounterContainer);
