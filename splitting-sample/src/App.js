@@ -1,29 +1,31 @@
+import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-function App() {
-  const onClick = () => {
-    import("./notify").then((result) => result.default());
+class App extends Component {
+  state = {
+    SplitMe: null,
   };
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p onClick={onClick}>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          11Learn React
-        </a>
-      </header>
-    </div>
-  );
+  handleClick = async () => {
+    const loadedModule = await import("./SplitMe");
+    this.setState({
+      SplitMe: loadedModule.default,
+    });
+  };
+
+  render() {
+    const { SplitMe } = this.state;
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p onClick={this.handleClick}> Hello</p>
+          {SplitMe && <SplitMe />}
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
