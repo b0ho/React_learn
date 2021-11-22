@@ -1,3 +1,4 @@
+import React from "react";
 import ReactDOMServer from "react-dom/server";
 import express from "express";
 import { StaticRouter } from "react-router-dom";
@@ -30,7 +31,7 @@ function createPage(root, stateScript) {
     content="width=device-width,initial-scale=1,shrink-to-fit=no"/>
     meta name="theme-color" content="#000000"/>
     <title>React</title>
-    <link href="${manifest["main.css"]}" rel="stylesheet"/>
+    <link href="${manifest.files["main.css"]}" rel="stylesheet"/>
     </head>
     <body>
     <noscript>run app</noscript>
@@ -38,16 +39,16 @@ function createPage(root, stateScript) {
     ${root}
     </div>
     ${stateScript}
-    <script src="${manifest["runtime-main.js"]}"></script>
+    <script src="${manifest.files["runtime-main.js"]}"></script>
     ${chunks}
-    <script src="${manifest["main.js"]}"></script>
+    <script src="${manifest.files["main.js"]}"></script>
     </body>
     </html>
     `;
 }
 const app = express();
 
-const serverRender = (req, res, next) => {
+const serverRender = async (req, res, next) => {
   const context = {};
   const store = createStore(rootReducer, applyMiddleware(thunk));
   const preloadContext = {
@@ -65,6 +66,7 @@ const serverRender = (req, res, next) => {
   );
 
   ReactDOMServer.renderToStaticMarkup(jsx);
+
   try {
     await Promise.all(preloadContext.promises);
   } catch (e) {
@@ -86,6 +88,6 @@ const serve = express.static(path.resolve("./build"), {
 app.use(serve);
 app.use(serverRender);
 
-app.listen(5000, () => {
-  console.log("run on 5000");
+app.listen(5001, () => {
+  console.log("run on 5001");
 });
