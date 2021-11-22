@@ -11,11 +11,12 @@ const UsersContainer = ({ users, getUsers }) => {
     if (users) return;
     getUsers();
   }, [getUsers, users]);
-  return;
-  <>
-    <Users users={users} />;
-    <Preloader resolve={getUsers} />
-  </>;
+  return (
+    <>
+      <Users users={users} />;
+      <Preloader resolve={getUsers} />
+    </>
+  );
 };
 
 export default connect(
