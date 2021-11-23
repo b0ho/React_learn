@@ -8,8 +8,10 @@ import fs from "fs";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-import rootReducer from "./modules";
 import PreloadContext from "./lib/PreloadContext";
+import createSagaMiddleware from "redux-saga";
+import rootReducer, { rootSaga } from "./modules";
+import { END } from "redux-saga";
 
 const manifest = JSON.parse(
   fs.readFileSync(path.resolve("./build/asset-manifest.json"), "utf8")
@@ -17,7 +19,7 @@ const manifest = JSON.parse(
 
 const chunks = Object.keys(manifest.files)
   .filter((key) => /chunk\.js$/.exec(key))
-  .map((key) => '<script src="${manifest.files[key]}"></script>')
+  .map((key) => `<script src="${manifest.files[key]}"></script>`)
   .join("");
 
 function createPage(root, stateScript) {
@@ -50,7 +52,14 @@ const app = express();
 
 const serverRender = async (req, res, next) => {
   const context = {};
-  const store = createStore(rootReducer, applyMiddleware(thunk));
+  const sagaMiddleware = createSagaMiddleware();
+  const store = createStore(
+    rootReducer,
+    applyMiddleware(thunk, sagaMiddleware)
+  );
+
+  const sagaPromise = sagaMiddleware.run(rootSaga).toPromise();
+
   const preloadContext = {
     done: false,
     promises: [],
@@ -66,8 +75,10 @@ const serverRender = async (req, res, next) => {
   );
 
   ReactDOMServer.renderToStaticMarkup(jsx);
+  store.dispatch(END);
 
   try {
+    await sagaPromise;
     await Promise.all(preloadContext.promises);
   } catch (e) {
     return res.status(500);
