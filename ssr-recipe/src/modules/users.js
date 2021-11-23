@@ -56,7 +56,6 @@ export function* usersSaga() {
 
 const initialState = {
   users: null,
-  user: null,
   loading: {
     users: false,
     user: false,
@@ -97,7 +96,7 @@ function users(state = initialState, action) {
       return {
         ...state,
         loading: { ...state.loading, user: false },
-        user: action.payload.data,
+        user: action.payload,
       };
     case GET_USER_FAILURE:
       return {

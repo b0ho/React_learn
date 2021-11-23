@@ -1,3 +1,5 @@
+import React from "react";
+
 const User = ({ user }) => {
   const { email, name, username } = user;
   return (
@@ -7,8 +9,7 @@ const User = ({ user }) => {
       </h1>
 
       <p>
-        <b>e-mail:</b>
-        {email}
+        <b>e-mail:</b> {email}
       </p>
     </div>
   );
