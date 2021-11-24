@@ -36,7 +36,7 @@ function createPage(root, tags) {
   <div id="root">
   ${root}
   </div>
-  ${tags.scrip}
+  ${tags.scripts}
   </body>
   </html>
   `;
