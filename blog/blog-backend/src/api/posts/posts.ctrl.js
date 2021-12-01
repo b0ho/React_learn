@@ -19,3 +19,68 @@ exports.write = (ctx) => {
 exports.list = (ctx) => {
   ctx.body = posts;
 };
+
+exports.read = (ctx) => {
+  const { id } = ctx.params;
+  const post = posts.find((p) => p.id.toString() === id);
+
+  if (!post) {
+    ctx.status = 404;
+    ctx.body = {
+      message: '포스트 없음',
+    };
+    return;
+  }
+  ctx.body = post;
+};
+
+exports.remove = (ctx) => {
+  const { id } = ctx.params;
+  const index = posts.findIndex((p) => p.id.toString() === id);
+
+  if (index === -1) {
+    ctx.status = 404;
+    ctx.body = {
+      message: '포스트 없음음',
+    };
+    return;
+  }
+  posts.splice(index, 1);
+  ctx.status = 204;
+};
+
+exports.replace = (ctx) => {
+  const { id } = ctx.params;
+  const index = posts.findIndex((p) => p.id.toString() === id);
+
+  if (index === -1) {
+    ctx.status = 404;
+    ctx.body = {
+      message: '포스트 없음',
+    };
+    return;
+  }
+  posts[index] = {
+    id,
+    ...ctx.request.body,
+  };
+  ctx.body = posts[index];
+};
+
+exports.update = (ctx) => {
+  const { id } = ctx.params;
+  const index = posts.findIndex((p) => p.id.toString() === id);
+
+  if (index === -1) {
+    ctx.status = 404;
+    ctx.body = {
+      message: '포스트 없음',
+    };
+    return;
+  }
+  posts[index] = {
+    ...posts[index],
+    ...ctx.request.body,
+  };
+  ctx.body = posts[index];
+};
