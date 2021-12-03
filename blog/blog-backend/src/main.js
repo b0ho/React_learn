@@ -5,6 +5,7 @@ import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
 
 import api from './api';
+import createData from './createData';
 
 const { PORT, MONGO_URI } = process.env;
 
@@ -12,6 +13,7 @@ mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log('DB Connected');
+    //createData();
   })
   .catch((e) => {
     console.error(e);
