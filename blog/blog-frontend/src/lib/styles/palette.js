@@ -24,3 +24,5 @@ const palette = {
     '#0b7285',
   ],
 };
+
+export default palette;
