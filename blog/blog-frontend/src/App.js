@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -8,14 +8,11 @@ import PostPage from './pages/PostPage';
 const App = () => {
   return (
     <>
-      <Routes>
-        <Route element={<PostListPage />} path="/@:username" exact />
-        <Route element={<PostListPage />} path="/" exact />
-        <Route element={<LoginPage />} path="login" />
-        <Route element={<RegisterPage />} path="register" />
-        <Route element={<WritePage />} path="write" />
-        <Route element={<PostPage />} path="/@:username/:postId" />
-      </Routes>
+      <Route component={PostListPage} path={['/@:username', '/']} exact />
+      <Route component={LoginPage} path="/login" />
+      <Route component={RegisterPage} path="/register" />
+      <Route component={WritePage} path="/write" />
+      <Route component={PostPage} path="/@:username/:postId" />
     </>
   );
 };
