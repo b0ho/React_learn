@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { listPosts } from '../../modules/posts';
 import { withRouter } from 'react-router-dom';
 
-const PostListContainer = ({ location, match }) => {
+const PostListContainer = ({ location }) => {
   const dispatch = useDispatch();
   const { posts, error, loading, user } = useSelector(
     ({ posts, loading, user }) => ({
@@ -17,8 +17,7 @@ const PostListContainer = ({ location, match }) => {
   );
 
   useEffect(() => {
-    const { username } = match.parse;
-    const { tag, page } = qs.parse(location.search, {
+    const { tag, username, page } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
     dispatch(listPosts({ tag, username, page }));
@@ -26,9 +25,9 @@ const PostListContainer = ({ location, match }) => {
 
   return (
     <PostList
-      posts={posts}
       loading={loading}
       error={error}
+      posts={posts}
       showWriteButton={user}
     />
   );
