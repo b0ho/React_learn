@@ -32,7 +32,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   };
 
   const onCancel = () => {
-    history.goBck();
+    history.goBack();
   };
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const WriteActionButtonsContainer = ({ history }) => {
     <WriteActionButtons
       onPublish={onPublish}
       onCancel={onCancel}
-      isEdit={!originalPostId}
+      isEdit={!!originalPostId}
     />
   );
 };
